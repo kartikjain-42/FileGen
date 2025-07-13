@@ -1,16 +1,29 @@
 # 🚀 FileGen MCP Server
 
-A **Model Context Protocol (MCP)** server designed to read, write, delete files, create project structures, and run system commands — perfect for automating backend workflows or agent integrations.
+**FileGen MCP Server** is a lightweight Model Context Protocol (MCP) server built to automate file handling, project initialization, and command execution — enabling seamless integration with LLM-based coding workflows.
+
+## 🧠 Why FileGen?
+
+When LLMs generate code and project structures, the developer often has to manually create folders, files, and paste code — a repetitive and time-consuming process.
+
+**FileGen MCP Server** eliminates this friction by letting agents or tools directly:
+
+* Create files/folders
+* Write and delete content
+* Generate project structures
+* Execute terminal commands
+
+It’s the perfect backend utility for building smarter, faster, AI-assisted development pipelines.
 
 ---
 
 ## ✨ Features
 
-* 📂 **Read Files**: Read individual files or recursively read entire directories.
-* 🏗️ **Initialize Projects**: Generate custom project structures from template definitions.
-* 📝 **Write Files**: Create new files or append content to existing ones.
-* ❌ **Delete Files**: Remove unwanted files or folders.
-* 💻 **Execute Commands**: Run terminal commands using Python subprocess.
+* 📂 **Read Files**: Read individual files or recursively scan directories.
+* 🏗️ **Initialize Projects**: Generate complete directory structures from templates.
+* 📝 **Write Files**: Create or append content to files.
+* ❌ **Delete Files**: Remove unnecessary files or folders.
+* 💻 **Execute Commands**: Run system commands via Python subprocess.
 
 ---
 
@@ -24,19 +37,16 @@ Reads one or more files/directories from the local filesystem.
 
 * `paths` (List\[str]): List of file/directory paths to read.
 
-**Returns:**
-Status with file contents or error messages.
-
 ---
 
 ### 🔹 `init_project`
 
-Generates a directory structure with streaming progress updates.
+Generates a folder/file structure.
 
 **Parameters:**
 
 * `name` (str): Project name.
-* `path` (str, optional): Base path (defaults to current working directory).
+* `path` (str, optional): Base path (default: system root directory).
 * `structure` (Dict\[str, Any]): Nested dictionary defining folders/files.
 
 ---
@@ -49,7 +59,7 @@ Creates or appends content to a file.
 
 * `path` (str): Target file path.
 * `content` (str): Content to write.
-* `mode` (str, optional): `"w"` for overwrite or `"a"` for append (default: `"w"`).
+* `mode` (str, optional): `"w"` (overwrite) or `"a"` (append). Default: `"w"`.
 
 ---
 
@@ -65,7 +75,7 @@ Deletes a file or directory.
 
 ### 🔹 `execute_command`
 
-Executes a shell command using Python subprocess.
+Executes a shell command.
 
 **Parameters:**
 
@@ -81,7 +91,7 @@ Executes a shell command using Python subprocess.
    uv sync
    ```
 
-2. Run the MCP server:
+2. Start the server:
 
    ```bash
    uv run python src/main.py
@@ -91,7 +101,7 @@ Executes a shell command using Python subprocess.
 
 ## 📜 Bash Script Setup
 
-For convenience, use the `setup_and_run.sh` script to configure and launch the MCP server:
+Use the `setup_and_run.sh` script to configure and launch the MCP server in one go.
 
 ### ✅ Steps:
 
@@ -111,23 +121,24 @@ For convenience, use the `setup_and_run.sh` script to configure and launch the M
 
 ### 🧰 What It Does:
 
-* Checks for Python and `uv`, installs `uv` if missing.
-* Sets up a virtual environment via `uv`.
+* Verifies Python and `uv` availability.
+* Installs `uv` if missing.
+* Sets up a virtual environment using `uv`.
 * Installs dependencies from `pyproject.toml`.
-* Generates a default `config.json` via `setup_config.py`.
-* Launches the MCP server.
+* Generates a default `config.json`.
+* Launches the server.
 
 ---
 
 ## 🧩 Configuration
 
-A `config.json` file will be automatically generated when you run the script.
+A `config.json` file is auto-generated when you run the setup script.
 
-To manually integrate with your agent system, ensure the `cwd` field points to the correct project path.
+To manually integrate with your agent system, ensure the `cwd` field points to the correct project directory.
 
-💡 Tip: Include the project path in your prompt to the LLM so it knows where to create files.
+💡 **Tip:** Include the project path in your LLM prompt so it knows where to write files.
 
-Example:
+### Example:
 
 ```json
 {
@@ -151,14 +162,14 @@ Example:
 ```
 project/
 ├── src/
-│   ├── main.py               # MCP server entry point
+│   ├── main.py                 # MCP server entry point
 │   ├── actions/
-│   │   ├── read_files.py     # Reads files/directories
-│   │   ├── init_project.py   # Project structure creation
-│   │   ├── delete_file.py    # File deletion tool
-│   │   └── execute_command.py# System command execution
+│   │   ├── read_files.py       # Read files/directories
+│   │   ├── init_project.py     # Project structure creation
+│   │   ├── delete_file.py      # File/folder deletion
+│   │   └── execute_command.py  # System command execution
 │   └── schemas/
-│       └── project_structure.py  # Pydantic models for structure definitions
-└── setup_and_run.sh          # Bootstrap script
+│       └── project_structure.py # Pydantic models for project 
+└── setup_and_run.sh            # Bootstrap script
 ```
 
