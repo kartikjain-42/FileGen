@@ -121,9 +121,11 @@ For convenience, use the `setup_and_run.sh` script to configure and launch the M
 
 ## 🧩 Configuration
 
-A `config.json` file will be automatically created when you run the script.
+A `config.json` file will be automatically generated when you run the script.
 
-To manually integrate with your agent system, ensure the `cwd` field matches the correct installation path.
+To manually integrate with your agent system, ensure the `cwd` field points to the correct project path.
+
+💡 Tip: Include the project path in your prompt to the LLM so it knows where to create files.
 
 Example:
 
